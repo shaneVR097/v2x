@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Emergency Alerts and Services</title>
+    <style>
+        /* Additional styles for improved appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #f9f9f9; /* Light grey background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center; /* Center align the content */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow */
+        }
+        .emergency-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .emergency-type {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .emergency-type:hover {
+            background-color: #f0f0f0;
+        }
+        .emergency-info-container {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        .update-table {
+            border-collapse: collapse;
+            /* Collapse borders */
+            width: 100%;
+        }
+        .update-table th, .update-table td {
+            border: 1px solid #ddd;
+            /* Add border to cells */
+            padding: 8px;
+            text-align: left;
+        }
+        .update-table th {
+            background-color: #f2f2f2;
+            /* Light grey background for headers */
+        }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .service-button {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .service-button:hover {
+            background-color: #f0f0f0;
+        }
+        .service-dialog-container {
+            position: relative;
+            display: inline-block;
+        }
+        .service-dialog {
+            position: absolute;
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            display: none;
+            z-index: 1;
+        }
+        .service-dialog-container:hover .service-dialog {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Emergency Alerts and Services</h1>
+        <div class="emergency-container">
+            <div class="emergency-type" onclick="showEmergency('accident')">Accident</div>
+            <div class="emergency-type" onclick="showEmergency('natural')">Natural Hazard</div>
+            <div class="emergency-type" onclick="showEmergency('health')">Health Hazard</div>
+            <div class="emergency-type" onclick="showEmergency('industrial')">Industrial Hazard</div>
+            <div class="emergency-type" onclick="showEmergency('political')">Political Event</div>
+            <div class="emergency-type" onclick="showEmergency('road')">Road Blockage</div>
+            <div class="emergency-type" onclick="showEmergency('assistance')">Cooperative Roadside Assistance</div>
+            <div class="emergency-type" onclick="showEmergency('services')">Emergency Services</div>
+        </div>
+    </div>
+
+  <!-- Accident Information Container (Hidden by default) -->
+<div id="accident-info" class="emergency-info-container">
+    <h2>Accident</h2>
+    <p>Real-time alerts about accidents along the route, including information about the severity and location of the accident, to help users avoid affected areas and stay safe.</p>
+    <table class="update-table">
+        <caption>Accident Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Severity</th>
+            <th>Description</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Main Street, Kolkata</td>
+            <td>High</td>
+            <td>Multi-vehicle collision</td>
+        </tr>
+        <tr>
+            <td>2024-04-15</td>
+            <td>11:30 AM</td>
+            <td>Highway 1, Mumbai</td>
+            <td>Medium</td>
+            <td>Car crash</td>
+        </tr>
+        <tr>
+            <td>2024-04-14</td>
+            <td>10:45 AM</td>
+            <td>Expressway 2, Delhi</td>
+            <td>Low</td>
+            <td>Minor collision</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Natural Hazard Information Container (Hidden by default) -->
+<div id="natural-info" class="emergency-info-container">
+    <h2>Natural Hazard</h2>
+    <p>Alerts about natural disasters like floods, cyclones, or torrential rainfall in the vicinity, along with guidance on safe routes and evacuation procedures.</p>
+    <table class="update-table">
+        <caption>Natural Hazard Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Severity</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Cyclone</td>
+            <td>Kolkata</td>
+            <td>High</td>
+        </tr>
+        <tr>
+            <td>2024-04-15</td>
+            <td>11:30 AM</td>
+            <td>Flood</td>
+            <td>Patna</td>
+            <td>Medium</td>
+        </tr>
+        <tr>
+            <td>2024-04-14</td>
+            <td>10:45 AM</td>
+            <td>Torrential Rainfall</td>
+            <td>Mumbai</td>
+            <td>Low</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Health Hazard Information Container (Hidden by default) -->
+<div id="health-info" class="emergency-info-container">
+    <h2>Health Hazard</h2>
+    <p>Notifications about health-related hazards such as toxic air quality, epidemics, or pandemics, with advice on protective measures and nearby medical facilities.</p>
+    <table class="update-table">
+        <caption>Health Hazard Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Severity</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Toxic Air Quality</td>
+            <td>Delhi</td>
+            <td>High</td>
+        </tr>
+        <tr>
+            <td>2024-04-15</td>
+            <td>11:30 AM</td>
+            <td>Epidemic</td>
+            <td>Chennai</td>
+            <td>Medium</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Industrial Hazard Information Container (Hidden by default) -->
+<div id="industrial-info" class="emergency-info-container">
+    <h2>Industrial Hazard</h2>
+    <p>Alerts about industrial accidents or hazardous material spills in the area, along with instructions on avoiding the affected area and seeking medical assistance if needed.</p>
+    <table class="update-table">
+        <caption>Industrial Hazard Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Severity</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Chemical Spill</td>
+            <td>Chennai</td>
+            <td>High</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Political Event Information Container (Hidden by default) -->
+<div id="political-info" class="emergency-info-container">
+    <h2>Political Event</h2>
+    <p>Information about political events that could affect road safety or traffic flow, such as protests or rallies, to help users plan alternative routes and stay informed.</p>
+    <table class="update-table">
+        <caption>Political Event Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Type</th>
+            <th>Location</th>
+            <th>Impact</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Rally</td>
+            <td>Kolkata</td>
+            <td>High</td>
+        </tr>
+    </table>
+</div>
+
+<!-- Road Blockage Information Container (Hidden by default) -->
+<div id="road-info" class="emergency-info-container">
+    <h2>Road Blockage</h2>
+    <p>Notifications about road closures or blockages due to construction, accidents, or other reasons, with guidance on alternative routes.</p>
+    <table class="update-table">
+        <caption>Road Blockage Events</caption>
+        <tr>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Location</th>
+            <th>Cause</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>2024-04-16</td>
+            <td>12:00 PM</td>
+            <td>Main Road, Jaipur</td>
+            <td>Accident</td>
+            <td>Closed</td>
+        </tr>
+    </table>
+</div>
+
+
+
+    <!-- Cooperative Roadside Assistance Information Container (Hidden by default) -->
+<div id="assistance-info" class="emergency-info-container">
+    <h2>Cooperative Roadside Assistance</h2>
+    <p>Enable users to request or offer help for issues like vehicle breakdowns, towing, or finding nearby services like hospitals, garages, petrol pumps, EV charging stations, food places, and medical stores.</p>
+    <table class="update-table">
+        <caption>Cooperative Roadside Assistance Units</caption>
+        <tr>
+            <th>City</th>
+            <th>RSA Unit Name</th>
+            <th>Contact Info</th>
+        </tr>
+        <tr>
+            <td>Kolkata</td>
+            <td>Kolkata RSA Services</td>
+            <td>Contact: 123-456-7890</td>
+        </tr>
+        <tr>
+            <td>Mumbai</td>
+            <td>Mumbai Roadside Assist</td>
+            <td>Contact: 234-567-8901</td>
+        </tr>
+        <tr>
+            <td>Delhi</td>
+            <td>Delhi Roadside Rescue</td>
+            <td>Contact: 345-678-9012</td>
+        </tr>
+        <tr>
+            <td>Chennai</td>
+            <td>Chennai Roadside Assistance</td>
+            <td>Contact: 456-789-0123</td>
+        </tr>
+        <tr>
+            <td>Hyderabad</td>
+            <td>Hyderabad RSA Center</td>
+            <td>Contact: 567-890-1234</td>
+        </tr>
+        <tr>
+            <td>Jaipur</td>
+            <td>Jaipur Roadside Aid</td>
+            <td>Contact: 678-901-2345</td>
+        </tr>
+        <tr>
+            <td>Chandigarh</td>
+            <td>Chandigarh Roadside Support</td>
+            <td>Contact: 789-012-3456</td>
+        </tr>
+        <tr>
+            <td>Guwahati</td>
+            <td>Guwahati Roadside Help</td>
+            <td>Contact: 890-123-4567</td>
+        </tr>
+        <tr>
+            <td>Bangalore</td>
+            <td>Bangalore Roadside Aid</td>
+            <td>Contact: 901-234-5678</td>
+        </tr>
+        <tr>
+            <td>Raipur</td>
+            <td>Raipur RSA Services</td>
+            <td>Contact: 012-345-6789</td>
+        </tr>
+        <tr>
+            <td>Jamshedpur</td>
+            <td>Jamshedpur Roadside Rescue</td>
+            <td>Contact: 234-567-8901</td>
+        </tr>
+        <tr>
+            <td>Bhopal</td>
+            <td>Bhopal Roadside Assist</td>
+            <td>Contact: 345-678-9012</td>
+        </tr>
+        <tr>
+            <td>Kanpur</td>
+            <td>Kanpur Roadside Rescue</td>
+            <td>Contact: 456-789-0123</td>
+        </tr>
+        <tr>
+            <td>Pune</td>
+            <td>Pune Roadside Assistance</td>
+            <td>Contact: 567-890-1234</td>
+        </tr>
+        <tr>
+            <td>Nagpur</td>
+            <td>Nagpur RSA Center</td>
+            <td>Contact: 678-901-2345</td>
+        </tr>
+        <tr>
+            <td>Patna</td>
+            <td>Patna Roadside Aid</td>
+            <td>Contact: 789-012-3456</td>
+        </tr>
+        <tr>
+            <td>Ahmedabad</td>
+            <td>Ahmedabad Roadside Support</td>
+            <td>Contact: 890-123-4567</td>
+        </tr>
+        <tr>
+            <td>Lucknow</td>
+            <td>Lucknow Roadside Help</td>
+            <td>Contact: 901-234-5678</td>
+        </tr>
+        <tr>
+            <td>Noida</td>
+            <td>Noida Roadside Aid</td>
+            <td>Contact: 012-345-6789</td>
+        </tr>
+        <tr>
+            <td>Nasik</td>
+            <td>Nasik RSA Services</td>
+            <td>Contact: 234-567-8901</td>
+        </tr>
+        <tr>
+            <td>Surat</td>
+            <td>Surat Roadside Assist</td>
+            <td>Contact: 345-678-9012</td>
+        </tr>
+        <tr>
+            <td>Kochi</td>
+            <td>Kochi Roadside Rescue</td>
+            <td>Contact: 456-789-0123</td>
+        </tr>
+        <tr>
+            <td>Coimbatore</td>
+            <td>Coimbatore Roadside Assistance</td>
+            <td>Contact: 567-890-1234</td>
+        </tr>
+        <tr>
+            <td>Durgapur</td>
+            <td>Durgapur RSA Center</td>
+            <td>Contact: 678-901-2345</td>
+        </tr>
+    </table>
+</div>
+
+
+    <!-- Emergency Services Information Container (Hidden by default) -->
+    <div id="services-info" class="emergency-info-container">
+        <h2>Emergency Services</h2>
+        <div class="service-grid">
+            <div class="service-button service-dialog-container">
+                Hospitals
+                <div class="service-dialog">
+                    <h3>Hospitals</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+                    <button onclick="showServiceOutlet('Hospitals', this)">Locate nearest Hospital</button>
+                </div>
+            </div>
+            <div class="service-button service-dialog-container">
+                Garages
+                <div class="service-dialog">
+                    <h3>Garages</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+                   <button onclick="showServiceOutlet('Garages', this)">Locate nearest Garage</button>
+
+                </div>
+            </div>
+            <div class="service-button service-dialog-container">
+                Petrol Pumps
+                <div class="service-dialog">
+                    <h3>Petrol Pumps</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+                    <button onclick="showServiceOutlet('Petrol Pumps', this)">Locate nearest Petrol Pump Station</button>
+                </div>
+            </div>
+            <div class="service-button service-dialog-container">
+                EV Charging Stations
+                <div class="service-dialog">
+                    <h3>EV Charging Stations</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+                    <button onclick="showServiceOutlet('EV Charging Stations', this)">Locate nearest EV Charging Station</button>
+                </div>
+            </div>
+            <div class="service-button service-dialog-container">
+                Food Places
+                <div class="service-dialog">
+                    <h3>Food Places</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+                    <button onclick="showServiceOutlet('Food Places', this)">Locate nearest Food Places outlet</button>
+                </div>
+            </div>
+            <div class="service-button service-dialog-container">
+                Medical Stores
+                <div class="service-dialog">
+                    <h3>Medical Stores</h3>
+                    <p><strong>Number of Outlets:</strong> 5</p>
+           <button onclick="showServiceOutlet('Medical Stores', this)">Locate nearest Medical Store outlet</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Received Alerts Section -->
+    <div class="container">
+        <h2>Received Alerts</h2>
+        <table class="update-table">
+            <caption>Received updates from vehicles regarding emergency alerts</caption>
+            <tr>
+                <th>Vehicle Numberplate</th>
+                <th>Vehicle IP Address</th>
+                <th>Vehicle Name</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Hazard Type</th>
+                <th>Message Received</th>
+            </tr>
+            <tr>
+                <td>ABC123</td>
+                <td>192.168.1.1</td>
+                <td>Vehicle 1</td>
+                <td>2024-04-16</td>
+                <td>12:00 PM</td>
+                <td>Accident</td>
+                <td>Message 1</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </table>
+    </div>
+
+    <!-- Script -->
+    <script>
+        function showEmergency(type) {
+            // Hide all info containers
+            document.querySelectorAll('.emergency-info-container').forEach(function(el) {
+                el.style.display = 'none';
+            });
+
+            // Show the selected info container
+            document.getElementById(type + '-info').style.display = 'block';
+        }
+
+        function showServiceOutlet(service) {
+    
+    // Additional logic to show the dialog box with store information
+    // You can add this logic based on your requirements
+    var storeType = service;
+    var storeName = "Example Store";
+    var storeAddress = "123 Example St";
+    var contact = "123-456-7890";
+
+    // Open dialog box with store information in the Emergency Services section
+    var serviceDialog = document.getElementById('services-info').querySelector('.service-dialog');
+    serviceDialog.innerHTML = "<h3>" + storeType + "</h3>" +
+                               "<p><strong>Store Name:</strong> " + storeName + "</p>" +
+                               "<p><strong>Store Address:</strong> " + storeAddress + "</p>" +
+                               "<p><strong>Contact:</strong> " + contact + "</p>";
+    serviceDialog.style.display = 'block';
+}
+
+    </script>
+
+</body>
+</html>
