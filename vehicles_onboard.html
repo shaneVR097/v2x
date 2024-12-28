@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Vehicles Onboard</title>
+    <link rel="stylesheet" href="vehicles_onboard_styles.css">
+    <style>
+        /* Additional CSS for layout */
+        .row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .col {
+            flex: 0 0 48%;
+        }
+
+        @media (max-width: 768px) {
+            .row {
+                flex-direction: column;
+            }
+
+            .col {
+                flex: 0 0 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Vehicles Onboard</h1>
+        <!-- Dropdown menu for sections -->
+        <div class="dropdown">
+            <button class="dropbtn">View more</button>
+            <div class="dropdown-content">
+                <a href="#vehicle-stats">Vehicle Statistics</a>
+                <a href="#vehicle-data">Vehicle Data</a>
+                <a href="#new-vehicles">New Vehicles Onboarded</a>
+                <a href="#deregistered-vehicles">Vehicles Deregistered</a>
+                <button id="register-toggle">Register</button>
+            </div>
+        </div>
+
+        <!-- Section: Vehicle Statistics -->
+        <div id="vehicle-stats" class="section">
+            <h2>Vehicle Statistics</h2>
+            <p>No. of Vehicles: 2</p>
+            <p>Passenger Vehicles: 1</p>
+            <p>Commercial Vehicles: 1</p>
+            <p>Vehicles with V2V Enabled: 0</p>
+            <p>Vehicles with Direct V2X Enabled: 0</p>
+        </div>
+
+        <!-- Section: Vehicle Data -->
+        <div id="vehicle-data" class="section">
+            <h2>Vehicle Data</h2>
+            <select id="vehicle-type">
+                <option value="all">All Vehicles</option>
+                <option value="passenger">Passenger Vehicles</option>
+                <option value="commercial">Commercial Vehicles</option>
+            </select>
+            <table id="vehicle-data-table">
+                <!-- Table data will be populated dynamically -->
+            </table>
+        </div>
+
+        <!-- Second row -->
+        <div class="row">
+            <!-- Section: New Vehicles Onboarded -->
+            <div id="new-vehicles" class="section col">
+                <h2>New Vehicles Onboarded</h2>
+                <table id="new-vehicles-table">
+                    <!-- Table data will be populated dynamically -->
+                </table>
+            </div>
+
+            <!-- Section: Vehicles Deregistered -->
+            <div id="deregistered-vehicles" class="section col">
+                <h2>Vehicles Deregistered</h2>
+                <table id="deregistered-vehicles-table">
+                    <!-- Table data will be populated dynamically -->
+                </table>
+            </div>
+        </div>
+
+        <!-- Third row -->
+        <div class="row">
+            <!-- Register Your Vehicle Section -->
+            <div id="register-your-vehicle" class="section col">
+                <h2>Register Your Vehicle</h2>
+                <button id="open-registration-form">Open Registration Form</button>
+            </div>
+        </div>
+
+        <!-- Registration Form (Initially hidden) -->
+        <!-- Registration Form (Initially hidden) -->
+<div id="register-vehicle" class="section hidden">
+    <h2>Registration Form</h2>
+    <form id="registration-form">
+        <label for="vehicleNumberPlate">Vehicle Number Plate:</label>
+        <input type="text" id="vehicleNumberPlate" name="vehicleNumberPlate"><br><br>
+        <label for="vehicleName">Vehicle Name:</label>
+        <input type="text" id="vehicleName" name="vehicleName"><br><br>
+        <label for="vehicleOwner">Vehicle Owner:</label>
+        <input type="text" id="vehicleOwner" name="vehicleOwner"><br><br>
+        <label for="ownerEmail">Owner Email:</label>
+        <input type="email" id="ownerEmail" name="ownerEmail"><br><br>
+        <label for="vehicleIpAddress">Vehicle IP Address:</label>
+        <input type="text" id="vehicleIpAddress" name="vehicleIpAddress"><br><br>
+        <label for="yearOfRegistration">Year of Registration:</label>
+        <input type="number" id="yearOfRegistration" name="yearOfRegistration"><br><br>
+        <input type="checkbox" id="agreeToTnC" name="agreeToTnC">
+        <label for="agreeToTnC">Agree to Terms and Conditions</label><br><br>
+        <button type="submit" id="register-btn">Register</button>
+    </form>
+</div>
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+    // Toggle registration form visibility
+    $('#register-toggle').click(function() {
+        $('#register-vehicle').toggleClass('hidden');
+    });
+
+    // Open registration form on button click
+    $('#open-registration-form').click(function() {
+        $('#register-vehicle').removeClass('hidden');
+    });
+
+    // Dummy data for new vehicles onboarded
+    var newVehicles = [
+        { numberPlate: 'ABC123', id: '1' },
+        { numberPlate: 'XYZ456', id: '2' }
+    ];
+
+    // Display new vehicles onboarded
+    newVehicles.forEach(function(vehicle) {
+        $('#new-vehicles-table').append(`<tr><td>${vehicle.numberPlate}</td><td>${vehicle.id}</td></tr>`);
+    });
+
+    // Register form submission
+    $('#registration-form').submit(function(e) {
+        e.preventDefault();
+        // Add your form submission logic here
+        if ($('#agreeToTnC').is(':checked')) {
+            alert('Registration successful');
+            // Reset form
+            $(this)[0].reset();
+            // Hide registration form
+            $('#register-vehicle').addClass('hidden');
+        } else {
+            alert('Please agree to the Terms and Conditions.');
+        }
+    });
+
+    // Dummy data for vehicle data, new vehicles onboarded, and vehicles deregistered
+    var vehicles = [
+        { type: 'passenger', numberPlate: 'ABC123', id: '1', ipAddress: '192.168.1.1' },
+        { type: 'commercial', numberPlate: 'XYZ456', id: '2', ipAddress: '192.168.1.2' }
+    ];
+    var newVehicles = [
+        { numberPlate: 'PQR789', id: '3' },
+        { numberPlate: 'LMN012', id: '4' }
+    ];
+    var deregisteredVehicles = [
+        { numberPlate: 'XYZ456', id: '2' }
+    ];
+
+    // Function to populate table with vehicle data based on selected type
+    function populateVehicleDataTable(type) {
+        var filteredVehicles = (type === 'all') ? vehicles : vehicles.filter(v => v.type === type);
+        var vehicleDataHtml = '';
+        filteredVehicles.forEach(function(vehicle) {
+            vehicleDataHtml += `<tr><td>${vehicle.numberPlate}</td><td>${vehicle.id}</td><td>${vehicle.ipAddress}</td></tr>`;
+        });
+        $('#vehicle-data-table').html(vehicleDataHtml);
+    }
+
+    // Function to populate table with new vehicles onboarded
+    function populateNewVehiclesTable() {
+        var newVehiclesHtml = '';
+        newVehicles.forEach(function(vehicle) {
+            newVehiclesHtml += `<tr><td>${vehicle.numberPlate}</td><td>${vehicle.id}</td></tr>`;
+        });
+        $('#new-vehicles-table').html(newVehiclesHtml);
+    }
+
+    // Function to populate table with vehicles deregistered
+    function populateDeregisteredVehiclesTable() {
+        var deregisteredVehiclesHtml = '';
+        deregisteredVehicles.forEach(function(vehicle) {
+            deregisteredVehiclesHtml += `<tr><td>${vehicle.numberPlate}</td><td>${vehicle.id}</td></tr>`;
+        });
+        $('#deregistered-vehicles-table').html(deregisteredVehiclesHtml);
+    }
+
+    // Initial population of tables
+    populateVehicleDataTable('all');
+    populateNewVehiclesTable();
+    populateDeregisteredVehiclesTable();
+
+    // Handle vehicle type dropdown change
+    $('#vehicle-type').change(function() {
+        var selectedType = $(this).val();
+        populateVehicleDataTable(selectedType);
+    });
+});
+    </script>
+</body>
+</html>
