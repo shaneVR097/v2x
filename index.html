@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>V2X Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+
+	body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 40px;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.navbar {
+    background-color: #007bff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex; /* Use flexbox */
+    flex-direction: row; /* Arrange items in a row */
+}
+
+.navbar-nav {
+    display: flex; /* Use flexbox */
+    flex-direction: row; /* Arrange items in a row */
+    justify-content: space-around; /* Spread items evenly */
+    width: 100%; /* Ensure full width */
+}
+
+
+.navbar-nav .nav-link {
+    color: #fff;
+    margin-right: 10px;
+    font-weight: bold;
+}
+
+.section {
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    background-color: #f8f9fa;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.section-content {
+    margin-top: 20px;
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+table, th, td {
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+/* New styles */
+.section-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.section-grid-item {
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.section-grid-item h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.section-grid-item p {
+    color: #666;
+}
+
+#raiseAlertForm {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: none;
+}
+
+#register-vehicle {
+    position: absolute;
+    width: 100%;
+    max-width: 400px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 9999;
+    display: none;
+}
+
+/* Additional styles for improved appearance */
+.container, .section {
+    color: #333;
+}
+
+.button-secondary {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 5px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+.button-secondary:hover {
+    background-color: #0056b3;
+}
+
+
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1><b>V2X Dashboard</b></h1>
+        <!-- Menu -->
+        <nav class="navbar navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="E:\Projects\ADAS fyp\v2v\online dashboard\templates\vehicles_onboard\vehicles_onboard.html">Vehicles Onboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="E:\Projects\ADAS fyp\v2v\online dashboard\templates\road_condition\road_condition.html">Road Condition</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="E:\Projects\ADAS fyp\v2v\online dashboard\templates\weather_condition\weather_condition.html">Weather Condition</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="E:\Projects\ADAS fyp\v2v\online dashboard\templates\emergency_alert\emergency_alert.html">Emergency Alert</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="vehicular_emergencies.html">Vehicular Emergencies</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Google Map for Nearby RSA Units -->
+        <div id="map"></div>
+
+        <!-- Raise an Alert Button -->
+        <button id="raiseAlertBtn">Raise an Alert</button>
+
+        <!-- Sub-page for Raising an Alert -->
+        <div id="raiseAlertForm" class="section hidden">
+            <h2>Raise an Alert</h2>
+            <form id="alertForm">
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" class="form-control" id="location" placeholder="Enter location">
+                </div>
+                <div class="form-group">
+                    <label for="driverName">Driver Name</label>
+                    <input type="text" class="form-control" id="driverName" placeholder="Enter driver name">
+                </div>
+                <div class="form-group">
+                    <label for="vehicleName">Vehicle Name</label>
+                    <input type="text" class="form-control" id="vehicleName" placeholder="Enter vehicle name">
+                </div>
+                <div class="form-group">
+                    <label for="vehicleNumberPlate">Vehicle Number-Plate</label>
+                    <input type="text" class="form-control" id="vehicleNumberPlate" placeholder="Enter vehicle number-plate">
+                </div>
+                <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="emergencyType">
+                    <label class="form-check-label" for="emergencyType">Type of Emergency</label>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        </div>
+
+        <!-- Register Your Vehicle Section -->
+        <div id="register-your-vehicle" class="section">
+            <h2>Register Your Vehicle</h2>
+            <button id="open-registration-form">Open Registration Form</button>
+        </div>
+
+        <!-- Registration Form (Initially hidden) -->
+        <div id="register-vehicle" class="section hidden">
+            <h2>Registration Form</h2>
+            <form id="registration-form">
+                <label for="vehicleNumberPlate">Vehicle Number Plate:</label>
+                <input type="text" id="vehicleNumberPlate" name="vehicleNumberPlate"><br><br>
+                <label for="vehicleName">Vehicle Name:</label>
+                <input type="text" id="vehicleName" name="vehicleName"><br><br>
+                <label for="vehicleOwner">Vehicle Owner:</label>
+                <input type="text" id="vehicleOwner" name="vehicleOwner"><br><br>
+                <label for="ownerEmail">Owner Email:</label>
+                <input type="email" id="ownerEmail" name="ownerEmail"><br><br>
+                <label for="vehicleIpAddress">Vehicle IP Address:</label>
+                <input type="text" id="vehicleIpAddress" name="vehicleIpAddress"><br><br>
+                <label for="yearOfRegistration">Year of Registration:</label>
+                <input type="number" id="yearOfRegistration" name="yearOfRegistration"><br><br>
+                <input type="checkbox" id="agreeToTnC" name="agreeToTnC">
+                <label for="agreeToTnC">Agree to Terms and Conditions</label><br><br>
+                <button type="submit" id="register-btn">Register</button>
+            </form>
+        </div>
+
+        <!-- Traffic Updates -->
+        <div class="section" id="trafficUpdates">
+            <div class="section-title">Traffic Updates</div>
+            <div class="section-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-04-18</td>
+                            <td>08:30 AM</td>
+                            <td>Main Street</td>
+                            <td>Accident causing traffic congestion</td>
+                        </tr>
+                        <tr>
+                            <td>2024-04-18</td>
+                            <td>09:15 AM</td>
+                            <td>Highway 1</td>
+                            <td>Vehicle breakdown on the right lane</td>
+                        </tr>
+                        <!-- Add more dummy rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Nearby Services -->
+        <div class="section" id="nearbyServices">
+            <div class="section-title">Nearby Services</div>
+            <div class="section-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Service</th>
+                            <th>Location</th>
+                            <th>Contact</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Hospital</td>
+                            <td>Main Street, City</td>
+                            <td>123-456-7890</td>
+                        </tr>
+                        <tr>
+                            <td>Garage</td>
+                            <td>Highway 1, City</td>
+                            <td>987-654-3210</td>
+                        </tr>
+                        <!-- Add more dummy rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Vehicle Alerts -->
+        <div class="section" id="vehicleAlerts">
+            <div class="section-title">Vehicle Alerts</div>
+            <div class="section-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Vehicle</th>
+                            <th>Alert Type</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2024-04-18</td>
+                            <td>08:30 AM</td>
+                            <td>Vehicle 1</td>
+                            <td>Breakdown</td>
+                            <td>Engine failure</td>
+                        </tr>
+                        <tr>
+                            <td>2024-04-18</td>
+                            <td>09:15 AM</td>
+                            <td>Vehicle 2</td>
+                            <td>Accident</td>
+                            <td>Collision with another vehicle</td>
+                        </tr>
+                        <!-- Add more dummy rows as needed -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Emergency Contacts -->
+        <div class="section" id="emergencyContacts">
+            <div class="section-title">Emergency Contacts</div>
+            <div class="section-content">
+                <div class="contact-item">Police: 100</div>
+                <div class="contact-item">Fire Department: 101</div>
+                <div class="contact-item">Ambulance: 102</div>
+                <div class="contact-item">Roadside Assistance: 1800-123-4567</div>
+            </div>
+        </div>
+
+       
+    <!-- Add jQuery and other scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    $('#raiseAlertBtn').click(function() {
+        $('#raiseAlertForm').toggle();
+    });
+
+    $('#open-registration-form').click(function() {
+        $('#register-vehicle').toggle(); // Change toggleClass to toggle
+    });
+
+    $('#registration-form').submit(function(e) {
+        e.preventDefault();
+        // Process the form submission here
+    });
+
+    // Close registration form when clicked outside
+    $(document).click(function(event) {
+        if (!$(event.target).closest('#register-your-vehicle').length && !$(event.target).closest('#register-vehicle').length && !$(event.target).is('#open-registration-form')) {
+            $('#register-vehicle').hide(); // Change addClass to hide
+        }
+    });
+});
+
+    </script>
+</body>
+</html>
+
+
