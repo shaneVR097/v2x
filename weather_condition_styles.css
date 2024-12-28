@@ -1,0 +1,91 @@
+/* Additional styles for improved appearance */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+.container {
+    background-color: #f9f9f9; /* Light grey background */
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+}
+.city-container {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+}
+.city {
+    background-color: #f0f0f0; /* Lighter background color */
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s; /* Smooth hover effect */
+}
+.city:hover {
+    background-color: #e0e0e0; /* Even lighter background on hover */
+}
+.city-info-container {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 10px;
+    display: none;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+}
+.update-section, .see-road-condition {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+}
+.search-criteria {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.search-criteria label {
+    margin-right: 10px;
+}
+.search-criteria select, .search-criteria button {
+    padding: 5px 10px;
+    font-size: 14px;
+}
+.weather-condition-info, .road-condition-info {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    display: none;
+    margin-top: 10px;
+    text-align: left;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+    max-width: 600px;
+    margin: 0 auto; /* Center horizontally */
+    padding: 20px; /* Add padding */
+}
+.weather-condition-info h2, .road-condition-info h2 {
+    margin-top: 0; /* Remove top margin for h2 */
+}
+.update-table {
+    border-collapse: collapse;
+    /* Collapse borders */
+    width: 100%;
+    border-radius: 10px; /* Rounded corners */
+    overflow: hidden; /* Hide overflow */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Slight shadow effect */
+}
+.update-table th, .update-table td {
+    border: 1px solid #ddd;
+    /* Add border to cells */
+    padding: 8px;
+    text-align: left;
+}
+.update-table th {
+    background-color: #f2f2f2;
+    /* Light grey background for headers */
+}

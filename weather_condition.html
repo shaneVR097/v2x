@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Condition</title>
+    <link rel="stylesheet" type="text/css" href="weather_condition_styles.css">
+    <style>
+        /* Additional styles for improved appearance */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background-color: #f9f9f9; /* Light grey background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center; /* Center align the content */
+        }
+        .city-container {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+        }
+        .city {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .city:hover {
+            background-color: #f0f0f0;
+        }
+        .city-info-container {
+            background-color: #f9f9f9;
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        .update-section, .see-road-condition {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center; /* Center align the content */
+        }
+        .search-criteria {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        .search-criteria label {
+            margin-right: 10px;
+        }
+        .search-criteria select, .search-criteria button {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        .weather-condition-info, .road-condition-info {
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            display: none;
+            margin-top: 10px;
+            text-align: left;
+            /* Align text to the left */
+            margin: 0 auto;
+            /* Center the container horizontally */
+            max-width: 600px;
+            /* Set max width for better readability */
+        }
+        .update-table {
+            border-collapse: collapse;
+            /* Collapse borders */
+            width: 100%;
+        }
+        .update-table th, .update-table td {
+            border: 1px solid #ddd;
+            /* Add border to cells */
+            padding: 8px;
+            text-align: left;
+        }
+        .update-table th {
+            background-color: #f2f2f2;
+            /* Light grey background for headers */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Weather Condition</h1>
+        <div class="city-container">
+            <div class="city">Kolkata</div>
+            <div class="city">Mumbai</div>
+            <div class="city">Delhi</div>
+            <div class="city">Chennai</div>
+            <div class="city">Hyderabad</div>
+            <div class="city">Jaipur</div>
+            <div class="city">Chandigarh</div>
+            <div class="city">Guwahati</div>
+            <div class="city">Bangalore</div>
+            <div class="city">Raipur</div>
+            <div class="city">Jamshedpur</div>
+            <div class="city">Bhopal</div>
+            <div class="city">Kanpur</div>
+            <div class="city">Pune</div>
+            <div class="city">Nagpur</div>
+            <div class="city">Patna</div>
+            <div class="city">Ahmedabad</div>
+            <div class="city">Lucknow</div>
+            <div class="city">Noida</div>
+            <div class="city">Nasik</div>
+            <div class="city">Surat</div>
+            <div class="city">Kochi</div>
+            <div class="city">Coimbatore</div>
+            <div class="city">Durgapur</div>
+        </div>
+    </div>
+
+    <!-- City Information Container (Hidden by default) -->
+    <div class="city-info-container"></div>
+
+    <!-- Received Updates Section -->
+    <div class="update-section">
+        <h2>Received Updates</h2>
+        <table class="update-table">
+            <caption>Weather updates received from vehicles on Network</caption>
+            <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Vehicle IP Address</th>
+                <th>Vehicle Name</th>
+                <th>Vehicle Sensor Type</th>
+                <th>Message Received</th>
+            </tr>
+            <tr>
+                <td>2024-04-16</td>
+                <td>12:00 PM</td>
+                <td>192.168.1.1</td>
+                <td>Vehicle 1</td>
+                <td>Sensor Type 1</td>
+                <td>Message 1</td>
+            </tr>
+            <!-- Add more rows as needed -->
+        </table>
+    </div>
+
+    <!-- See Road Condition Section -->
+    <div class="see-road-condition">
+        <h2>Road Visibility</h2>
+        <div class="search-criteria">
+            <label for="city">Select City:</label>
+            <select id="city">
+                <option value="" selected disabled>Select City</option>
+                <option value="Kolkata">Kolkata</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Delhi">Delhi</option>
+                <!-- Add more cities as needed -->
+            </select>
+            <label for="road-type">Road Type:</label>
+            <select id="road-type">
+                <option value="" selected disabled>Select Road Type</option>
+                <option value="Road">Road</option>
+                <option value="Highway">Highway</option>
+                <option value="Expressway">Expressway</option>
+            </select>
+            <label for="road-name">Select Road:</label>
+            <select id="road-name">
+                <option value="" selected disabled>Select Road</option>
+                <!-- Populate with road names using JavaScript -->
+            </select>
+            <button onclick="showRoadCondition()">Show Road Visibility</button>
+        </div>
+	<!-- Hidden div to display road condition -->
+        <div class="road-condition-info" style="display: none;"></div>
+
+    </div>
+
+    <!-- Script -->
+    <script src="weather_condition_script.js"></script>
+</body>
+</html>
